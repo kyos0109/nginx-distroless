@@ -1,7 +1,5 @@
 FROM nginx:1.14.0 as base
 
-COPY nginx.conf /etc/nginx/nginx.conf
-
 # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 ARG TIME_ZONE
 
@@ -9,7 +7,10 @@ RUN mkdir -p /opt && \
     cp -a --parents /usr/lib/nginx /opt && \
     cp -a --parents /usr/share/nginx /opt && \
     cp -a --parents /var/log/nginx /opt && \
+    cp -aL --parents /var/run /opt && \
     cp -a --parents /etc/nginx /opt && \
+    cp -a --parents /etc/passwd /opt && \
+    cp -a --parents /etc/group /opt && \
     cp -a --parents /usr/sbin/nginx /opt && \
     cp -a --parents /lib/x86_64-linux-gnu/libpcre.so.* /opt && \
     cp -a --parents /lib/x86_64-linux-gnu/libz.so.* /opt && \
@@ -24,8 +25,6 @@ RUN mkdir -p /opt && \
 FROM gcr.io/distroless/base
 
 COPY --from=base /opt /
-
-VOLUME /var/cache/nginx
 
 EXPOSE 80
 
