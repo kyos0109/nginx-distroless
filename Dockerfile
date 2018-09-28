@@ -3,7 +3,7 @@ FROM nginx:1.14.0 as base
 # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 ARG TIME_ZONE
 
-RUN mkdir -p /opt && \
+RUN mkdir -p /opt/var/cache/nginx && \
     cp -a --parents /usr/lib/nginx /opt && \
     cp -a --parents /usr/share/nginx /opt && \
     cp -a --parents /var/log/nginx /opt && \
