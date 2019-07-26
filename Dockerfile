@@ -1,4 +1,4 @@
-FROM nginx:1.14.2 as base
+FROM nginx:1.16.0 as base
 
 # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 ARG TIME_ZONE
@@ -12,6 +12,7 @@ RUN mkdir -p /opt/var/cache/nginx && \
     cp -a --parents /etc/passwd /opt && \
     cp -a --parents /etc/group /opt && \
     cp -a --parents /usr/sbin/nginx /opt && \
+    cp -a --parents /usr/sbin/nginx-debug /opt && \
     cp -a --parents /lib/x86_64-linux-gnu/libpcre.so.* /opt && \
     cp -a --parents /lib/x86_64-linux-gnu/libz.so.* /opt && \
     cp -a --parents /lib/x86_64-linux-gnu/libc.so.* /opt && \
@@ -26,6 +27,6 @@ FROM gcr.io/distroless/base
 
 COPY --from=base /opt /
 
-EXPOSE 80
+EXPOSE 80 443
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
